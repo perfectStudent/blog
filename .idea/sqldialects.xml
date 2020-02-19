@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/ArticleMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/TypeMapper.xml" dialect="MySQL" />
+  </component>
+  <component name="SqlResolveMappings">
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/ArticleMapper.xml" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;name&quot;:{     &quot;@name&quot;:&quot;e1e25713-6e57-4e6e-900f-553e35bc65a7&quot;,     &quot;@quoted&quot;:&quot;1&quot;    }   }  } }}" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/TypeMapper.xml" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;name&quot;:{     &quot;@name&quot;:&quot;e1e25713-6e57-4e6e-900f-553e35bc65a7&quot;,     &quot;@quoted&quot;:&quot;1&quot;    },    &quot;group&quot;:{     &quot;@kind&quot;:&quot;schema&quot;,     &quot;node&quot;:{      &quot;name&quot;:{       &quot;@name&quot;:&quot;blog&quot;,       &quot;@quoted&quot;:&quot;1&quot;      }     }    }   }  } }}" />
+    <file url="PROJECT" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;@negative&quot;:&quot;1&quot;   }  } }}" />
+  </component>
+</project>

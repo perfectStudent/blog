@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wmkfe.blog.dao.ArticleMapper">
+  <insert id="save" parameterType="cn.wmkfe.blog.model.Article">
+     insert into t_article
+     (id,title, introduction, content,content_md,
+     first_picture, put_top, status,
+     commentable, view_count, create_time,
+     update_time, type_id, user_id)
+     values
+     (#{id},#{title},#{introduction},#{content},#{contentMd},
+     #{firstPicture},#{putTop},#{status},
+     #{commentable},#{viewCount},#{createTime},
+     #{updateTime},#{typeId},#{userId})
+  </insert>
+
+  <delete id="remove" >
+    delete from t_article where id in
+    <foreach collection="array" open="(" close=")" separator="," item="item">
+      #{item}
+    </foreach>
+  </delete>
+
+  <update id="update" parameterType="cn.wmkfe.blog.model.Article">
+        update t_article
+       <set>
+        <if test="title !=null and title!=''">
+            title=#{title},
+        </if>
+         <if test="introduction !=null and introduction!=''">
+           introduction=#{introduction},
+         </if>
+         <if test="content !=null and content!=''">
+           content=#{content},
+         </if>
+         <if test="contentMd !=null and contentMd!=''">
+           content_md=#{contentMd},
+         </if>
+         <if test="firstPicture !=null and firstPicture!=''">
+           first_picture=#{firstPicture},
+         </if>
+         <if test="putTop !=null">
+           put_top=#{putTop},
+         </if>
+         <if test="status !=null">
+           `status`=#{status},
+         </if>
+         <if test="commentable !=null">
+           commentable=#{commentable},
+         </if>
+         <if test="viewCount !=null">
+           view_count=#{viewCount},
+         </if>
+         <if test="updateTime !=null">
+           update_time=#{updateTime},
+         </if>
+         <if test="typeId !=null">
+           type_id=#{typeId}
+         </if>
+         where id =#{id}
+       </set>
+
+  </update>
+
+    <select id="getOne" resultMap="getOneMap">
+        SELECT
+            a.id,
+            a.title,
+            a.Introduction,
+            a.content,
+            a.content_md,
+            a.first_picture,
+            a.put_top,
+            a.`status`,
+            a.commentable,
+            a.view_count,
+            a.create_time,
+            a.update_time,
+            a.type_id,
+            a.user_id,
+            ty.id AS tyid,
+            ty.type_name,
+            ta.id AS taid,
+            ta.tag_name,
+            u.name
+        FROM
+            t_article AS a
+                LEFT JOIN t_type AS ty
+                          ON ty.id = a.type_id
+                LEFT JOIN t_tag_map AS t_m
+                          ON a.id = t_m.article_id
+                LEFT JOIN t_tag AS ta
+                          ON ta.id = t_m.tag_id
+                LEFT JOIN t_user u
+                          ON a.user_id = u.id
+        WHERE a.id = #{id}
+    </select>
+
+    <resultMap id="getOneMap" type="cn.wmkfe.blog.model.Article">
+        <id column="id"  property="id" />
+        <result column="title" property="title"/>
+        <result column="introduction" property="introduction"/>
+        <result column="content" property="content"/>
+        <result column="content_md" property="contentMd"/>
+        <result column="first_picture" property="firstPicture"/>
+        <result column="put_top" property="putTop"/>
+        <result column="status" property="status"/>
+        <result column="commentable" property="commentable"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type_id" property="typeId"/>
+        <result column="user_id" property="userId"/>
+
+        <!--一对一  分类 -->
+        <association property="type" javaType="cn.wmkfe.blog.model.Type">
+            <id column="tyid" property="id"/>
+            <result column="type_name" property="typeName"/>
+        </association>
+
+        <!--一对一  user -->
+        <association property="user" javaType="cn.wmkfe.blog.model.User">
+            <result column="name" property="name"/>
+        </association>
+        <!-- 一对多  标签-->
+        <collection property="tagList" ofType="cn.wmkfe.blog.model.Tag">
+            <id property="id" column="taid"/>
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
+  <select id="getList" resultMap="getListMap" >
+    <if test="articleGet !=null and articleGet.title!=null and articleGet.title!=''">
+      <bind name="pattern_title" value="'%'+articleGet.title+'%'"/>
+    </if>
+
+      <if test="articleGet!=null and articleGet.archivesDate!=null and articleGet.archivesDate!=''">
+          <bind name="pattern_archivesDate" value="'%'+articleGet.archivesDate+'%'"/>
+      </if>
+      SELECT
+          a.id,
+          a.title,
+          a.Introduction,
+          a.content,
+          a.first_picture,
+          a.put_top,
+          a.`status`,
+          a.commentable,
+          a.view_count,
+          a.create_time,
+          a.update_time,
+          a.type_id,
+          a.user_id,
+          ty.id AS tyid,
+          ty.type_name,
+          ta.id AS taid,
+          ta.tag_name
+      FROM
+        <choose>
+           <when test="articleGet!=null and articleGet.tagId!=null">
+               (SELECT * FROM t_article WHERE t_article.id IN
+               (SELECT t_m.id FROM
+               (SELECT  article_id AS id FROM t_tag_map WHERE tag_id=#{articleGet.tagId} ORDER BY article_id ASC LIMIT ${from},${pageSize}) AS t_m)
+               ) as a
+           </when>
+
+            <otherwise>
+                (SELECT * FROM t_article
+                <where>
+                     title NOT IN(SELECT title FROM t_article AS t_a WHERE t_a.`title`='关于我')
+                    <if test="articleGet!=null and articleGet.title!=null and articleGet.title!=''">
+                        and title like #{pattern_title}
+                    </if>
+                    <if test="articleGet!=null and articleGet.archivesDate!=null  and articleGet.archivesDate!=''">
+                        and create_time like #{pattern_archivesDate}
+                    </if>
+                    <if test="articleGet!=null and articleGet.typeId!=null">
+                         and type_id=#{articleGet.typeId}
+                    </if>
+                </where>
+                order by id ASC limit ${from},${pageSize}) as a
+            </otherwise>
+        </choose>
+          LEFT JOIN t_type AS ty
+          ON ty.id = a.type_id
+          LEFT JOIN t_tag_map AS t_m
+          ON a.id = t_m.article_id
+          LEFT JOIN t_tag AS ta
+          ON ta.id = t_m.tag_id
+
+
+  </select>
+
+    <resultMap id="getListMap" type="cn.wmkfe.blog.model.Article">
+        <id column="id"  property="id" />
+        <result column="title" property="title"/>
+        <result column="introduction" property="introduction"/>
+        <result column="first_picture" property="firstPicture"/>
+        <result column="put_top" property="putTop"/>
+        <result column="status" property="status"/>
+        <result column="commentable" property="commentable"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type_id" property="typeId"/>
+        <result column="user_id" property="userId"/>
+        <!--一对一  分类 -->
+        <association property="type" javaType="cn.wmkfe.blog.model.Type">
+            <id column="tyid" property="id"/>
+            <result column="type_name" property="typeName"/>
+        </association>
+        <!-- 一对多  标签-->
+        <collection property="tagList" ofType="cn.wmkfe.blog.model.Tag">
+            <id property="id" column="taid"/>
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
+  <select id="count" resultType="int">
+      <if test="articleGet!=null and articleGet.title!=null and articleGet.title!=''">
+          <bind name="pattern_title" value="'%'+articleGet.title+'%'"/>
+      </if>
+      <if test="articleGet!=null and articleGet.archivesDate!=null and articleGet.archivesDate!=''">
+          <bind name="pattern_archivesDate" value="'%'+articleGet.archivesDate+'%'"/>
+      </if>
+
+          SELECT COUNT(DISTINCT a.id) FROM t_article AS a
+          LEFT JOIN t_tag_map t_m
+          ON a.id = t_m.article_id
+      <where>
+            a.`title` NOT IN(SELECT title FROM t_article AS t_a WHERE t_a.`title`='关于我')
+          <if test="articleGet!=null and articleGet.title!=null and articleGet.title!=''">
+              and a.title like #{pattern_title}
+          </if>
+          <if test="articleGet!=null and articleGet.archivesDate!=null  and articleGet.archivesDate!=''">
+              and a.create_time like #{pattern_archivesDate}
+          </if>
+
+          <if test="articleGet!=null and articleGet.typeId!=null">
+              and a.type_id = #{articleGet.typeId}
+          </if>
+          <if test="articleGet!=null and articleGet.tagId!=null">
+              and t_m.tag_id= #{articleGet.tagId}
+          </if>
+
+
+      </where>
+  </select>
+    <!--更新访问量-->
+    <update id="updateViewCount">
+        UPDATE t_article AS a
+        SET view_count= view_count+1
+        WHERE id=#{id}
+    </update>
+    <!--是否置顶-->
+    <update id="updatePutTop">
+        UPDATE t_article AS a
+        SET put_top= #{putTop}
+        WHERE id=#{id}
+    </update>
+
+    <!--关于我-->
+    <select id="about" resultMap="aboutMap">
+        SELECT
+            a.id,
+            a.title,
+            a.Introduction,
+            a.content,
+            a.content_md,
+            a.first_picture,
+            a.put_top,
+            a.`status`,
+            a.commentable,
+            a.view_count,
+            a.create_time,
+            a.update_time,
+            a.type_id,
+            a.user_id,
+            ty.id AS tyid,
+            ty.type_name,
+            ta.id AS taid,
+            ta.tag_name,
+            u.name
+        FROM
+            t_article AS a
+                LEFT JOIN t_type AS ty
+                          ON ty.id = a.type_id
+                LEFT JOIN t_tag_map AS t_m
+                          ON a.id = t_m.article_id
+                LEFT JOIN t_tag AS ta
+                          ON ta.id = t_m.tag_id
+                LEFT JOIN t_user u
+                          ON a.user_id = u.id
+        WHERE a.title='关于我'
+    </select>
+
+    <resultMap id="aboutMap" type="cn.wmkfe.blog.model.Article">
+        <id column="id"  property="id" />
+        <result column="title" property="title"/>
+        <result column="introduction" property="introduction"/>
+        <result column="content" property="content"/>
+        <result column="content_md" property="contentMd"/>
+        <result column="first_picture" property="firstPicture"/>
+        <result column="put_top" property="putTop"/>
+        <result column="status" property="status"/>
+        <result column="commentable" property="commentable"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type_id" property="typeId"/>
+        <result column="user_id" property="userId"/>
+        <!--一对一  分类 -->
+        <association property="type" javaType="cn.wmkfe.blog.model.Type">
+            <id column="tyid" property="id"/>
+            <result column="type_name" property="typeName"/>
+        </association>
+        <!--一对一  user -->
+        <association property="user" javaType="cn.wmkfe.blog.model.User">
+            <result column="name" property="name"/>
+        </association>
+        <!-- 一对多  标签-->
+        <collection property="tagList" ofType="cn.wmkfe.blog.model.Tag">
+            <id property="id" column="taid"/>
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+</mapper>

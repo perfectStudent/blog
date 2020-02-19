@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title},~{})">
+	<meta charset="utf-8">
+	<title>编辑评论</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../../static/admin/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../../../static/admin/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form layui-row layui-col-space10">
+	<input type="hidden" class="layui-input id" lay-verify="id" name="id">
+	<div class="layui-col-md9 layui-col-xs12">
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-md9 layui-col-xs7">
+				<div class="layui-form-item magt3">
+					<label class="layui-form-label">所属文章</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input articleId" lay-verify="required" readonly="readonly">
+					</div>
+				</div>
+				<div class="layui-form-item magt3">
+					<label class="layui-form-label">昵称</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input name" lay-verify="required" >
+					</div>
+				</div>
+				<div class="layui-form-item magt3">
+					<label class="layui-form-label">邮箱</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input email" lay-verify="email">
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-col-md3 layui-col-xs5">
+				<div class="layui-upload-list thumbBox mag0 magt3">
+					<img class="layui-upload-img thumbImg" id="avatar">
+				</div>
+			</div>
+		</div>
+
+				<div class="layui-form-item magb0">
+					<label class="layui-form-label">评论内容</label>
+					<div class="layui-input-block">
+						<textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="comment_content"></textarea>
+					</div>
+				</div>
+	</div>
+
+	<div class="layui-col-md3 layui-col-xs12">
+        <blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 提交</blockquote>
+        <div class="border">
+
+
+            <hr class="layui-bg-gray" />
+            <div class="layui-right">
+                <a class="layui-btn layui-btn-sm" lay-filter="updateComment" lay-submit><i class="layui-icon">&#xe609;</i>提交</a>
+            </div>
+        </div>
+	</div>
+</form>
+<script type="text/javascript" src="../../../static/admin/layui/layui.js" th:src="@{/admin/layui/layui.js}"></script>
+<script type="text/javascript" src="../../../static/admin/js/comment/commentUpdate.js" th:src="@{/admin/js/comment/commentUpdate.js}"></script>
+
+</body>
+</html>

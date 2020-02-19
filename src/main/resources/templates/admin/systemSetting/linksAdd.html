@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title},~{})">
+	<title>友情链接</title>
+</head>
+<body class="childrenBody">
+<form class="layui-form linksAdd">
+	<div class="layui-form-item">
+		<div class="layui-upload-list linkLogo">
+			<img class="layui-upload-img linkLogoImg">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">网站名称</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input linkName" lay-verify="required" placeholder="请输入网站名称" />
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">网站地址</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input linkUrl" lay-verify="required|url" placeholder="请输入网站地址" />
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<button class="layui-btn layui-block" lay-filter="addLink" lay-submit>提交</button>
+	</div>
+</form>
+<script type="text/javascript"  th:src="@{/admin/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/systemSetting/linkList.js}"></script>
+</body>
+</html>

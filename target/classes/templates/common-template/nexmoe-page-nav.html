@@ -1,0 +1,7 @@
+<nav class="nexmoe-page-nav">
+    <th:block th:each="index : ${#numbers.sequence(1, pageSupport.pageCount)}"
+              th:switch="${index eq pageSupport.currentPageNo}">
+        <span class="page-number current" th:case="true" th:text="${index}">1</span>
+        <a class="page-number" href="http://localhost:8080/?p=2" th:case="*" th:text="${index}">2</a>
+    </th:block>
+</nav>

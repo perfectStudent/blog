@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wmkfe.blog.dao.TypeMapper">
+  <insert id="save" parameterType="cn.wmkfe.blog.model.Type" >
+     insert into t_type (type_name) values (#{typeName})
+  </insert>
+
+  <delete id="remove" >
+    delete from t_type where id in
+    <foreach collection="array" open="(" close=")" separator="," item="item">
+        #{item}
+    </foreach>
+  </delete>
+
+  <update id="update" parameterType="cn.wmkfe.blog.model.Type" >
+      update t_type set type_name=#{typeName} where id =#{id}
+  </update>
+
+    <select id="getOne" resultType="cn.wmkfe.blog.model.Type" >
+        select id,type_name from t_type where id=#{id}
+    </select>
+
+    <select id="getList" resultType="cn.wmkfe.blog.model.Type">
+        <if test="type!=null and type.typeName!=null and type.typeName!=''">
+        <bind name="pattern_typeName" value="'%'+type.typeName+'%'"/>
+        </if>
+        select id,type_name from t_type
+        <where>
+            <if test="type!=null and type.typeName!=null and type.typeName!=''">
+                type_name like #{pattern_typeName}
+            </if>
+        </where>
+                order by id ASC limit ${from},${pageSize}
+    </select>
+    <select id="count" resultType="int" parameterType="cn.wmkfe.blog.model.Type">
+        <if test="typeName!=null and typeName!=''">
+            <bind name="pattern_typeName" value="'%'+typeName+'%'"/>
+        </if>
+        select count(id) from t_type
+        <where>
+            <if test="typeName!=null and typeName!=''">
+                type_name like #{pattern_typeName}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByName" parameterType="java.lang.String" resultType="cn.wmkfe.blog.model.Type">
+        select id,type_name from t_type where type_name=#{typeName}
+    </select>
+
+    <select id="getAll"  resultType="cn.wmkfe.blog.model.Type">
+        select id,type_name from t_type
+    </select>
+</mapper>

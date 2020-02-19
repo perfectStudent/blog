@@ -1,0 +1,47 @@
+<section class="nexmoe-posts" id="brand-waterfall">
+    <div class="nexmoe-post" th:each="article : ${articleList}">
+        <a href="articles/2019/08/29/1567093295295.html"
+           th:href="@{'http://localhost:8080/articles/'+${article.id}+'.html'}" th:title="${article.title}">
+            <div class="nexmoe-post-cover mdui-ripple">
+                <img src="bing/20190816.jpg" th:src="${article.firstPicture}" th:alt="${article.title}"
+                     th:attr="data-src=${article.firstPicture}"
+                     class="ls-is-cached lazyloaded index-img" referrerpolicy="no-referrer">
+                <h1 th:text="${article.title}"></h1>
+            </div>
+        </a>
+        <div class="nexmoe-post-meta">
+            <!--日期-->
+            <span >
+                            <i class="nexmoefont iconfont solo-calendarl"></i>
+                            <th:block th:utext="${#dates.format(article.createTime, 'yyyy年MM月dd日')}"></th:block>
+                        </span>
+            <!--浏览次数-->
+            <span >
+                            <i class="nexmoefont iconfont solo-calendarl"></i>
+                            <th:block th:utext="${article.viewCount}+'°C'"></th:block>
+                        </span>
+            <!--分类-->
+            <span><a class="nexmoefont iconfont solo-category -link"
+                     th:href="@{'http://localhost:8080/types/'+${article.typeId}}"
+                     th:utext="${article.type.typeName}"></a>
+                        </span>
+
+            <!--标签-->
+            <span th:each="tag : ${article.tagList}">
+                            <a class="nexmoefont iconfont solo-tag -link"
+                               th:href="@{'http://localhost:8080/tags/'+${tag.id}+'.html'}" th:text="${tag.tagName}"></a>
+                        </span>
+        </div>
+        <article>
+            <!-- 文章简介 -->
+            <p class="summary" th:text="${article.introduction}"></p>
+        </article>
+    </div>
+</section>
+<nav class="nexmoe-page-nav">
+    <th:block th:each="index : ${#numbers.sequence(1, pageSupport.pageCount)}"
+              th:switch="${index eq pageSupport.currentPageNo}">
+        <span class="page-number current" th:case="true" th:text="${index}">1</span>
+        <a class="page-number" href="http://localhost:8080/?p=2" th:case="*" th:text="${index}">2</a>
+    </th:block>
+</nav>

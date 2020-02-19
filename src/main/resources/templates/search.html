@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common-template/search-macro-common_head"></head>
+<body class="search__body">
+<div class="search__header fn-clear">
+    <a th:href="@{/}" ><img width="32" border="0" alt="綄羙" title="綄羙" th:src="@{/images/wm_32.png}"></a>
+    <div class="search__input">
+        <input value="" id="keyword" type="text" onkeypress="if(event.keyCode===13){document.getElementById('searchBtn').click()}">
+        <button id="searchBtn" th:onclick="'window.location.href='+${#request.getContextPath()}+'search?keyword='+'+ document.getElementById(\'keyword\').value'" onclick="window.location.href='https://www.jinjianh.com/search?keyword=' ">搜索</button>
+    </div>
+</div>
+
+<div class="search">
+    <div class="search__articles">
+        <article th:each="article : ${articleList}">
+            <header>
+                <h1>
+                    <a rel="bookmark" th:href="@{'/articles/'+${article.id}+'.html'}" th:text="${article.title}">
+                    </a>
+                </h1>
+
+                <div class="meta">
+                    <time th:utext="${#dates.format(article.createTime, 'yyyy年MM月dd日')}"></time>
+                    &nbsp;
+                    <th:block th:text="${article.viewCount}"></th:block>
+                 浏览
+                </div>
+            </header>
+            <div class="vditor-reset">
+            
+            </div>
+            <footer>
+                <th:block th:each="tag : ${article.tagList}">
+                    <a class="tag" rel="tag" th:href="@{'/tags/'+${tag.id}}" href="tags/随笔.html">随笔</a>
+                </th:block>
+            </footer>
+        </article>
+    </div>
+
+<th:block th:replace="common-template/nexmoe-page-nav"></th:block>
+</div>
+
+<div class="footerWrapper">
+    <div class="footer">
+        Powered by <a href="javascript:;" target="_blank">B3log 开源</a> • Solo 3.6.7
+    </div>
+</div>
+</body>
+</html>

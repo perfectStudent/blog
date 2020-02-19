@@ -1,0 +1,91 @@
+<div id="nexmoe-header">
+    <div class="nexmoe-drawer mdui-drawer" id="drawer">
+        <div class="nexmoe-avatar mdui-ripple">
+            <a href="http://localhost:8080/" th:title="綄羙的博客">
+                <img th:src="@{/images/wm_640.jpg}" th:title="綄羙的博客" alt=""></a>
+        </div>
+        <div class="nexmoe-count">
+            <div>
+                <span >文章</span>
+                <th:block th:text="${statistics.articleCount}"></th:block>
+            </div>
+            <div>
+                <span>浏览</span>
+                <th:block th:text="${statistics.viewCount}"></th:block>
+            </div>
+        </div>
+        <div class="list-content">
+            <ul class="nexmoe-list mdui-list header__nav" mdui-collapse="{accordion: true}">
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple" th:href="@{http://localhost:8080/}"
+                   th:title="綄羙的博客">
+                    <i class="mdui-list-item-icon iconfont solo-home"></i>
+                    <div class="mdui-list-item-content">回到首页</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple" th:href="@{http://localhost:8080/links.html}"
+                   th:title="友情链接-綄羙的博客">
+                    <i class="mdui-list-item-icon iconfont solo-list"></i>
+                    <div class="mdui-list-item-content">友情链接</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple" th:href="@{http://localhost:8080/tags.html}"
+                   th:title="标签-綄羙的博客">
+                    <i class="mdui-list-item-icon iconfont solo-tags"></i>
+                    <div class="mdui-list-item-content">标签</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple" th:href="@{http://localhost:8080/about.html}"
+                   th:title="关于我" target="_self">
+                    <i class="mdui-list-item-icon iconfont solo-about"></i>
+                    <div class="mdui-list-item-content">关于我</div>
+                </a>
+            </ul>
+        </div>
+        <aside id="nexmoe-sidebar">
+            <div class="nexmoe-widget-wrap">
+                <h3 class="nexmoe-widget-title">功能按钮</h3>
+                <div class="nexmoe-widget nexmoe-social features">
+                    <a th:href="@{/search.html}" title="搜索" class="mdui-ripple">
+                        <i class="mdui-list-item-icon iconfont solo-search"></i>
+                        <div class="mdui-list-item-content">搜索</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nexmoe-widget-wrap">
+                <h3 class="nexmoe-widget-title">标签</h3>
+                <div class="nexmoe-widget tagcloud">
+                    <th:block th:each="tag : ${tagList}">
+                        <a rel="tag" href="tags/随笔.html" th:href="@{${mCH.url}+'tags/'+${tag.id}+'.html'}"
+                           th:title="'标签:'+${tag.tagName}+' - 綄羙的博客'" class="mdui-ripple" th:utext="${tag.tagName}"></a>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="nexmoe-widget-wrap">
+                <h3 class="nexmoe-widget-title">分类</h3>
+                <div class="nexmoe-widget">
+                    <ul class="category-list">
+                        <th:block th:each="type : ${typeList}">
+                            <li class="category-list-item">
+                                <a class="category-list-link mdui-ripple" href="category/essay.html" th:href="@{${mCH.url}+'types/'+${type.id}+'.html'}"
+                                   th:title="'标签:'+${type.typeName}+' - 綄羙的博客'"  th:text="${type.typeName}"></a>
+                                <!--                            <span class="category-list-count">11</span>-->
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nexmoe-widget-wrap">
+                <h3 class="nexmoe-widget-title">存档</h3>
+                <div class="nexmoe-widget">
+                    <ul class="category-list">
+                        <th:block th:each="date : ${dateList}">
+                            <li class="category-list-item">
+                                <a  th:href="@{${mCH.url}+'archives/'+${date.slashFormat}}" th:title="${date.CNFormat}+'存档 - 綄羙的博客'" th:text="${date.CNFormat}"></a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

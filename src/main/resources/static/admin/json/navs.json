@@ -1,0 +1,45 @@
+{
+	"contentManagement": [
+		{
+			"title": "文章管理",
+			"icon": "icon-text",
+			"href": "/admin/article.html",
+			"spread": false
+		},
+		{
+			"title": "分类管理",
+			"icon": "icon-caidan",
+			"href": "/admin/type.html",
+			"spread": false
+		},
+
+		{
+			"title": "标签管理",
+			"icon": "&#xe634;",
+			"href": "/admin/tag.html",
+			"spread": false
+		},
+
+		{
+			"title": "评论管理",
+			"icon": "&#xe634;",
+			"href": "/admin/comment.html",
+			"spread": false
+		}
+		],
+	"systemeSttings": [
+		{
+			"title": "系统日志",
+			"icon": "icon-log",
+			"href": "/admin/logs.html",
+			"spread": false
+		},{
+			"title": "友情链接",
+			"icon": "&#xe64c;",
+			"href": "/admin/linkList.html",
+			"spread": false
+		}
+	]
+}
+
+

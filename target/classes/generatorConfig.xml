@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	
+	<!--数据库驱动 -->
+	<classPathEntry
+		location="D:\Learn-Resources\mysql-connector-java-5.1.8.jar" />
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+	
+	<!-- 
+	suppressAllComments
+	这个属性用来指定MBG生成的代码中是否包含注释。 这个属性有以下可选值：  
+					 1. false *这是默认值*   
+	 				当这个属性是false或者没有指定时，所有生成的元素都会包含用来说明这是生成元素的注释。  
+					 2.  true  当这个属性是true时，不会往生成的元素中添加任何注释。  
+	 				注意：如果您将这个值设为true，那么所有的代码合并都会被禁用。
+	 
+	 
+	 suppressDate
+	 这个元素用来指定生成的注释中是否包含生成的日期。 
+	 	这个属性有以下可选值：
+	  		1.  false *这是默认值*   当这个属性是false或者没有指定时，所有元素生成注释时都会带着生成时间。 
+	  		2.  true  当这个属性是true时，注释中不会添加生成时间。
+	 -->
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!--数据库链接地址账号密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost/blog" userId="root"
+			password="root">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+
+		<!--生成Model类存放位置 -->
+		<javaModelGenerator targetPackage="cn.wmkfe.blog.model"
+			targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!--生成映射文件存放位置 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--生成Dao类存放位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="cn.wmkfe.blog.dao" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!--生成对应表及类名 -->
+		<table tableName="t_article" domainObjectName="Article"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false"/>
+
+		<table tableName="t_comment" domainObjectName="Comment"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false"/>
+
+		<table tableName="t_tag" domainObjectName="Tag"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false"/>
+
+		<table tableName="t_tag_map" domainObjectName="TagMap"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false"/>
+
+		<table tableName="t_type" domainObjectName="Type"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false"/>
+
+		<table tableName="t_user" domainObjectName="User"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false"/>
+
+
+	</context>
+</generatorConfiguration>

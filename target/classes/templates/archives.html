@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common-template/macro-common_head"></head>
+<body class="mdui-drawer-body-left mdui-loaded">
+
+<div id="nexmoe-background" th:replace="common-template/nexmoe-background"></div>
+<!--左边菜单栏-->
+<div id="nexmoe-header" th:replace="common-template/nexmoe-header"></div>
+<!--内容区域-->
+
+<div id="nexmoe-content" th:replace="common-template/nexmoe-content"></div>
+
+<th:block th:replace="common-template/footer-script"></th:block>
+
+<th:block th:replace="common-template/kanbanniang"></th:block>
+</body>
+</html>

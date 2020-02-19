@@ -1,0 +1,51 @@
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="theme-color" content="#3b3e43">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<title th:text="${mCH.title}"></title>
+<meta name="description" th:content="${mCH.description}">
+<meta property="og:description" th:content="${mCH.description}">
+<meta name="keywords" th:content="${mCH.keywords}">
+<link rel="preconnect" th:href="${mCH.preconnect}">
+<meta name="copyright" content="B3log">
+<meta http-equiv="Window-target" content="_top">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" th:content="${mCH.title}" >
+<meta property="og:site_name" th:content="${mCH.siteName}" >
+<meta property="og:url" th:content="${mCH.url}">
+<link rel="canonical" th:content="${mCH.url}" >
+<link rel="stylesheet" th:href="@{/skins/solo-nexmoe/css/base.css}">
+<link rel="stylesheet" th:href="@{/npm/mdui@0.4.3/dist/css/mdui.min.css}">
+<link rel="stylesheet" th:href="@{/skins/solo-nexmoe/css/font-icon.css}" >
+<!-- 百度统计 -->
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?724e183565f9021ce58cc033754cc760";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<!-- 标题改动 -->
+<script>var OriginTitile = document.title;
+var titleTime;
+document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+        document.title = '(つェ⊂)看不到我~ ' + OriginTitile;
+        clearTimeout(titleTime);
+    } else {
+        document.title = '(*´∇｀*) 被发现啦~ ' + OriginTitile;
+        titleTime = setTimeout(function () {
+            document.title = OriginTitile;
+        }, 1000);
+    }
+});</script>
+
+<script data-ad-client="ca-pub-8937958607175975" async th:src="@{/pagead/js/adsbygoogle.js}"></script>

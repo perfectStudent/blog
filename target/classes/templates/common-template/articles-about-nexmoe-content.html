@@ -1,0 +1,47 @@
+<div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <main id="pjax" class="fn__flex-1">
+            <div class="nexmoe-post">
+                <div class="nexmoe-post-cover">
+                    <img th:src="${article.firstPicture}"  th:alt="${article.title} "
+                          class=" ls-is-cached lazyloaded"
+                         referrerpolicy="no-referrer">
+                    <h1 th:text="${article.title}"></h1>
+                </div>
+                <div class="nexmoe-post-meta">
+                    <!--日期-->
+                    <span>
+                            <i class="nexmoefont iconfont solo-calendarl"></i>
+                            <th:block th:utext="${#dates.format(article.createTime, 'yyyy年MM月dd日')}"></th:block>
+                        </span>
+                    <!--浏览次数-->
+                    <span>
+                            <i class="nexmoefont iconfont solo-calendarl"></i>
+                            <th:block th:utext="${article.viewCount}+'°C'"></th:block>
+                        </span>
+
+                    <!--分类-->
+                    <span><a class="nexmoefont iconfont solo-category -link"
+                             th:href="@{'http://localhost:8080/types/'+${article.typeId}}"
+                             th:utext="${article.type.typeName}"></a>
+                        </span>
+
+                    <!--标签-->
+                    <span th:each="tag : ${article.tagList}">
+                            <a class="nexmoefont iconfont solo-tag -link"
+                               th:href="@{'http://localhost:8080/tags/'+${tag.id}}"
+                               th:text="${tag.tagName}"></a>
+                        </span>
+
+                </div>
+                <article>
+                    <div class="vditor-reset" th:utext="${article.content}"></div>
+                </article>
+            </div>
+            <div class="post__toc">
+            </div>
+        </main>
+
+        <th:block th:replace="common-template/nexmoe-hitokoto"></th:block>
+    </div>
+</div>

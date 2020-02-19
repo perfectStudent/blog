@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wmkfe.blog.dao.CommentMapper">
+  <insert id="save" parameterType="cn.wmkfe.blog.model.Comment" >
+     insert into t_comment (name,email,avatar,content,create_time,article_id)
+     values (#{name},#{email},#{avatar},#{content},#{createTime},#{articleId})
+  </insert>
+
+  <delete id="remove" >
+    delete from t_comment where id in
+    <foreach collection="array" open="(" close=")" separator="," item="item">
+      #{item}
+    </foreach>
+  </delete>
+
+    <update id="update" parameterType="cn.wmkfe.blog.model.Comment">
+        update t_comment
+        <set>
+            <if test="name !=null and name !=''">
+                t_comment.name=#{name},
+            </if>
+            <if test="email !=null and email !=''">
+                email=#{email},
+            </if>
+            <if test="avatar !=null and avatar !=''">
+                avatar=#{avatar},
+            </if>
+
+            <if test="content !=null and content !=''">
+                content=#{content},
+            </if>
+
+            <if test="createTime !=null">
+                create_time=#{createTime},
+            </if>
+            <if test="articleId !=null and articleId !=''">
+                article_id=#{articleId}
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+  <select id="getOne" resultType="cn.wmkfe.blog.model.Comment" >
+        select id, name, email, avatar, content, create_time, article_id
+        from t_comment where id=#{id}
+    </select>
+
+    <select id="getByArticleId" resultType="cn.wmkfe.blog.model.Comment" >
+        select id, name, email, avatar, content, create_time, article_id
+        from t_comment where article_id=#{articleId}
+        order by id ASC limit ${from},${pageSize}
+    </select>
+
+
+  <select id="getList" resultType="cn.wmkfe.blog.model.Comment">
+      <if test="comment !=null and comment.name!=null and comment.name!=''">
+          <bind name="pattern_name" value="'%'+comment.name+'%'"/>
+      </if>
+        select id, name, email, avatar, content, create_time, article_id from t_comment
+        <where>
+            <if test="comment !=null and comment.name!=null and comment.name!=''">
+                name like #{pattern_name}
+            </if>
+        </where>
+        order by id ASC limit ${from},${pageSize}
+  </select>
+  <select id="count" resultType="int" parameterType="cn.wmkfe.blog.model.Comment">
+        select count(id) from t_comment
+    </select>
+
+    <delete id="removeArticleIds" >
+        delete from blog.t_comment where article_id in
+        <foreach collection="array" open="(" close=")"  item="item" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

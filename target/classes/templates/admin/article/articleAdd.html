@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title},~{})">
+	<meta charset="utf-8">
+	<title>添加文章</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../../static/admin/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../../../static/admin/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+
+<div class="layui-form layui-row layui-col-space10">
+    <div class="layui-col-md9 layui-col-xs12">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md9 layui-col-xs7">
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">文章标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input title" lay-verify="articleName" placeholder="请输入文章标题">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">内容摘要</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容摘要(不输入时默认截取文章内容的前五十个字)" class="layui-textarea introduction"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3 layui-col-xs5">
+                <div class="layui-upload-list thumbBox mag0 magt3">
+                    <img class="layui-upload-img thumbImg" id="firstPicture" lay-verify="imgVerify">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item magb0">
+            <label class="layui-form-label">文章内容</label>
+            <div class="layui-input-block">
+                <div id="vditor"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="layui-col-md3 layui-col-xs12">
+        <blockquote class="layui-elem-quote title"><i class="seraph icon-caidan"></i> 分类目录</blockquote>
+        <div class="border category">
+            <div class="">
+                <p><input type="radio" name="type" title="新闻" lay-verify="typeRadio" lay-skin="primary" th:each="type : ${typeList}" th:title="${type.typeName}" th:value="${type.id}"   /></p>
+            </div>
+        </div>
+
+        <blockquote class="layui-elem-quote title"><i class="seraph icon-caidan"></i> 标签目录</blockquote>
+        <div class="border category">
+            <div class="">
+                <input type="checkbox" name="tag" title="新闻" lay-verify="tagCheckbox"  th:each="tag : ${tagList}" th:value="${tag.id}" th:title="${tag.tagName}" lay-skin="primary" />
+            </div>
+        </div>
+        <blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 发布</blockquote>
+        <div class="border">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i> 状　态</label>
+                <div class="layui-input-block status">
+                    <select name="status" lay-verify="required">
+                        <option value="0">保存草稿</option>
+                        <option value="1">已发布</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item openness">
+                <label class="layui-form-label"><i class="seraph icon-look"></i> 评　论</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="commentable" value="1" title="开启评论" lay-skin="primary" checked />
+                    <input type="radio" name="commentable" value="0" title="关闭评论" lay-skin="primary" />
+                </div>
+            </div>
+            <div class="layui-form-item newsTop">
+                <label class="layui-form-label"><i class="seraph icon-zhiding"></i> 置　顶</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="putTop" lay-skin="switch" lay-text="是|否">
+                </div>
+            </div>
+            <hr class="layui-bg-gray" />
+            <div class="layui-right">
+                <a class="layui-btn layui-btn-sm" lay-filter="addArticle" lay-submit><i class="layui-icon">&#xe609;</i>发布</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@latest/dist/index.classic.css"/>
+<script src="https://cdn.jsdelivr.net/npm/vditor@latest/dist/index.min.js"></script>
+
+
+<script type="text/javascript" src="../../../static/admin/layui/layui.js" th:src="@{/admin/layui/layui.js}"></script>
+<script type="text/javascript" src="../../../static/admin/js/article/articleUpdate.js" th:src="@{/admin/js/article/articleAdd.js}"></script>
+
+<!-- ⚠️生产环境请指定版本号，如 https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
+<!-- 可使用 index.dark.css 或 index.classic.css -->
+<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.classic.css" />-->
+<!--<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>-->
+
+
+</body>
+</html>

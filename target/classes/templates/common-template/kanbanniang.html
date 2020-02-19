@@ -1,0 +1,17 @@
+<script>
+    var Label = {
+        servePath: "http://localhost:8080",
+        staticServePath: "http://localhost:8080",
+        luteAvailable: true,
+        hljsStyle: 'emacs',
+        langLabel: "zh_CN",
+        version: "3.6.7",
+    }
+    Util.init()
+</script>
+<link type="text/css" rel="stylesheet" th:href="@{/npm/kanbanniang@0.2.1/index.css}">
+<script async  th:src="@{/npm/kanbanniang@0.2.1/index.js}"></script>
+<div class="solo-kanbanniang">
+    <div class="solo-kanbanniang__tip"></div>
+    <canvas id="soloKanbanniang" width="280" height="250"></canvas>
+</div>

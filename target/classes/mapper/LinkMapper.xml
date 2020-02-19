@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wmkfe.blog.dao.LinkMapper">
+    <insert id="save" parameterType="cn.wmkfe.blog.model.Link" >
+        insert into t_link (link_logo,website_name,url_address,create_time)
+        values (#{linkLogo},#{websiteName},#{urlAddress},#{createTime})
+    </insert>
+
+    <delete id="remove">
+        delete from t_link where id in
+        <foreach collection="array" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="cn.wmkfe.blog.model.Link" >
+        update t_link
+        <set>
+            <if test="linkLogo!=null and linkLogo!=''">
+                link_logo=#{linkLogo},
+            </if>
+            <if test="websiteName!=null and websiteName!=''">
+                website_name=#{websiteName},
+            </if>
+            <if test="urlAddress!=null and urlAddress!=''">
+                url_address=#{urlAddress},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <select id="getOne" resultType="cn.wmkfe.blog.model.Link" >
+        select id,link_logo,website_name,url_address,create_time
+        from t_link where id=#{id}
+    </select>
+
+    <select id="getList" resultType="cn.wmkfe.blog.model.Link">
+        <if test="link !=null and link.websiteName!=null and link.websiteName!=''">
+            <bind name="pattern_tagName" value="'%'+link.websiteName+'%'"/>
+        </if>
+        select id,link_logo,website_name,url_address,create_time from t_link
+        <where>
+            <if test="link !=null and link.websiteName!=null and link.websiteName!=''">
+                website_name like #{pattern_tagName}
+            </if>
+        </where>
+        order by id ASC limit ${from},${pageSize}
+    </select>
+    <select id="count" resultType="int" parameterType="cn.wmkfe.blog.model.Link">
+        <if test="websiteName!=null and websiteName!=''">
+            <bind name="pattern_tagName" value="'%'+websiteName+'%'"/>
+        </if>
+            select count(id) from t_link
+        <where>
+            <if test="websiteName!=null and websiteName!=''">
+                website_name like #{pattern_tagName}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByName" parameterType="java.lang.String" resultType="cn.wmkfe.blog.model.Link">
+        select id,link_logo,website_name,url_address,create_time from t_link
+        where website_name=#{websiteName}
+    </select>
+
+    <select id="getAll" resultType="cn.wmkfe.blog.model.Link">
+        select id,link_logo,website_name,url_address,create_time from t_link
+    </select>
+</mapper>
