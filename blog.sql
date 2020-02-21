@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.24 (32 bit)
 MySQL - 5.7.27-log : Database - blog
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -19,7 +20,7 @@ USE `blog`;
 /*Table structure for table `t_article` */
 
 DROP TABLE IF EXISTS `t_article`;
-
+ 
 CREATE TABLE `t_article` (
   `id` varchar(19) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '标题',
